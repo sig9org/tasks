@@ -8,10 +8,6 @@ includes:
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
-vars:
-  GOTASK_ROOT_DIR: "{{.TASKFILE_DIR}}"
-  GOTASK_WORKING_DIR: "{{.USER_WORKING_DIR}}"
-
 tasks:
   default:
     cmds:
