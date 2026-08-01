@@ -118,7 +118,7 @@ tasks:
           sudo setcap 'cap_net_bind_service=+ep' /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd
         fi
 
-  -update:macos:
+  update:macos:
     internal: true
     status:
       - '[ "{{.DETECTED_OS}}" != "darwin" ]'
