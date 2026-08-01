@@ -1,6 +1,7 @@
 vars:
   CLEANUP_DIRS:
     - .idea
+    - .task
     - .terraform
     - .vscode
   CLEANUP_FILES:
