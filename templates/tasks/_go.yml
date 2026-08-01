@@ -45,3 +45,8 @@ tasks:
     cmds:
       - go vet ./...
       - go test ./...
+
+  version:
+    internal: true
+    cmds:
+      - go run -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" . -v
