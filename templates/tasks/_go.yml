@@ -19,6 +19,7 @@ tasks:
     internal: true
     cmds:
       - task: clean
+      - echo "Building binary for {{OS}}/{{ARCH}}..."
       - go build -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" -o {{.DIST_DIR}}/{{.BINARY_NAME}}{{if eq OS "windows"}}.exe{{end}} .
 
   clean:
