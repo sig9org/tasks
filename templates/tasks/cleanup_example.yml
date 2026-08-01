@@ -1,0 +1,8 @@
+tasks:
+  cleanup:
+    aliases: [c]
+    deps: [_time:start]
+    desc: "Remove temporary and unnecessary files"
+    cmds:
+      - task: _cleanup:start
+      - defer: { task: _time:end }

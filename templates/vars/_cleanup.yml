@@ -1,0 +1,12 @@
+vars:
+  CLEANUP_DIRS:
+    - .idea
+    - .terraform
+    - .vscode
+  CLEANUP_FILES:
+    - .DS_Store
+    - .terraform.lock.hcl
+    - terraform.tfstate
+    - terraform.tfstate.backup
+    - Desktop.ini
+    - Thumbs.db

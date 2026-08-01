@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  CLEANUP_DIRS:
+    - .idea
+    - .terraform
+    - .vscode
+  CLEANUP_FILES:
+    - .DS_Store
+    - .terraform.lock.hcl
+    - terraform.tfstate
+    - terraform.tfstate.backup
+    - Desktop.ini
+    - Thumbs.db
+
+tasks:
+  start:
+    internal: true
+    cmds:
+      - task: start:shell
+
+  start:shell:
+    internal: true
+    dir: "{{.USER_WORKING_DIR}}"
+    platforms: [darwin, linux]
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} +
+      - for: { var: CLEANUP_FILES }
+        cmd: find . -name "{{.ITEM}}" -print -delete

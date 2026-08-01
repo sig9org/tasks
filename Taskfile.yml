@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+silent: true
+
+includes:
+  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
+  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+
+tasks:
+  build:
+    aliases: [b]
+    deps: [_time:start]
+    desc: "Generate task files"
+    cmds:
+      - task: gotasky
+      - defer: { task: _time:end }
+
+  cleanup:
+    aliases: [c]
+    deps: [_time:start]
+    desc: "Remove temporary and unnecessary files"
+    cmds:
+      - task: _cleanup:start
+      - defer: { task: _time:end }

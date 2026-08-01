@@ -1,0 +1,16 @@
+tasks:
+  cleanup:
+    aliases: [c]
+    deps: [_time:start]
+    desc: "Remove temporary and unnecessary files"
+    cmds:
+      - task: _cleanup:start
+      - defer: { task: _time:end }
+
+  build:
+    aliases: [b]
+    deps: [_time:start]
+    desc: "Generate task files"
+    cmds:
+      - task: gotasky
+      - defer: { task: _time:end }

@@ -1,0 +1,19 @@
+files:
+  cleanup_example:
+    path: "examples/cleanup.yml"
+    headers:
+      - default.yml
+    tasks:
+      - cleanup_example.yml
+  _cleanup:
+    path: "tasks/_cleanup.yml"
+    headers:
+      - default.yml
+    tasks:
+      - _cleanup.yml
+  _time:
+    path: "tasks/_time.yml"
+    headers:
+      - default.yml
+    tasks:
+      - _time.yml

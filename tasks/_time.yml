@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  end:
+    internal: true
+    preconditions:
+      - sh: "python3 --version"
+      - sh: "test -f {{.TASKFILE_DIR}}/.task_start_time"
+    cmds:
+      - |
+        start=$(cat {{.TASKFILE_DIR}}/.task_start_time 2>/dev/null || echo 0)
+        end=$(python3 -c 'import time; print(int(time.time() * 1000))')
+        elapsed_ms=$((end - start))
+        python3 -c "g='\033[32m'; n='\033[0m'; p='======================================== '; ms=$elapsed_ms; m=ms//60000; rem=ms%60000; s=rem//1000; r=rem%1000; msg=(f'Elapsed: {m} minute{\"s\" if m!=1 else \"\"} {s} second{\"s\" if s!=1 else \"\"} {r} millisecond{\"s\" if r!=1 else \"\"}' if m>0 else (f'Elapsed: {s} second{\"s\" if s!=1 else \"\"} {r} millisecond{\"s\" if r!=1 else \"\"}' if s>0 else f'Elapsed: {r} millisecond{\"s\" if r!=1 else \"\"}')); print(f'{g}{p}{msg}{n}')"
+        rm -f {{.TASKFILE_DIR}}/.task_start_time
+
+  start:
+    internal: true
+    preconditions:
+      - sh: "python3 --version"
+    cmds:
+      - python3 -c 'import time; print(int(time.time() * 1000))' > {{.TASKFILE_DIR}}/.task_start_time
