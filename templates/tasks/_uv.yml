@@ -1,0 +1,10 @@
+tasks:
+  freeze:
+    internal: true
+    cmds:
+      - uv pip freeze
+
+  sync:
+    internal: true
+    cmds:
+      - uv sync --upgrade

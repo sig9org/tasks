@@ -3,15 +3,6 @@
 version: '3'
 
 tasks:
-  -update:macos:
-    internal: true
-    status:
-      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
-    cmds:
-      - echo "Running macOS Homebrew update..."
-      - brew update
-      - brew upgrade -y
-
   check:
     internal: true
     cmds:
@@ -130,6 +121,15 @@ tasks:
         if [ -f /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd ]; then
           sudo setcap 'cap_net_bind_service=+ep' /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd
         fi
+
+  update:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Running macOS Homebrew update..."
+      - brew update
+      - brew upgrade -y
 
   update:ubuntu:
     internal: true
