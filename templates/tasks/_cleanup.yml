@@ -6,7 +6,7 @@ tasks:
 
   start:shell:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: "{{.GOTASK_WORKING_DIR}}"
     platforms: [darwin, linux]
     cmds:
       - for: { var: CLEANUP_DIRS }

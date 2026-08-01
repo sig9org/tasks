@@ -14,3 +14,10 @@ tasks:
     cmds:
       - task: gotasky
       - defer: { task: _time:end }
+
+  dir-check:
+    aliases: [d]
+    desc: "Check directory env."
+    cmds:
+      - echo "{{.GOTASK_ROOT_DIR}}"
+      - echo "{{.GOTASK_WORKING_DIR}}"

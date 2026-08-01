@@ -8,7 +8,15 @@ includes:
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
+vars:
+  GOTASK_ROOT_DIR: "{{.TASKFILE_DIR}}"
+  GOTASK_WORKING_DIR: "{{.USER_WORKING_DIR}}"
+
 tasks:
+  default:
+    cmds:
+      - task --list
+
   build:
     aliases: [b]
     deps: [_time:start]
@@ -24,3 +32,10 @@ tasks:
     cmds:
       - task: _cleanup:start
       - defer: { task: _time:end }
+
+  dir-check:
+    aliases: [d]
+    desc: "Check directory env."
+    cmds:
+      - echo "{{.GOTASK_ROOT_DIR}}"
+      - echo "{{.GOTASK_WORKING_DIR}}"

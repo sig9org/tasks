@@ -7,6 +7,10 @@ includes:
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
 tasks:
+  default:
+    cmds:
+      - task --list
+
   cleanup:
     aliases: [c]
     deps: [_time:start]

@@ -1,14 +1,10 @@
 files:
-  cleanup_example:
-    path: "examples/cleanup.yml"
-    headers:
-      - default.yml
-    tasks:
-      - cleanup_example.yml
   _cleanup:
     path: "tasks/_cleanup.yml"
     headers:
       - default.yml
+    vars:
+      - _cleanup.yml
     tasks:
       - _cleanup.yml
   _time:
@@ -17,3 +13,25 @@ files:
       - default.yml
     tasks:
       - _time.yml
+  cleanup_example:
+    path: "examples/cleanup.yml"
+    headers:
+      - default.yml
+    includes:
+      - _cleanup.yml
+      - _time.yml
+    tasks:
+      - default.yml
+      - cleanup_example.yml
+  tasks_example:
+    path: "Taskfile.yml"
+    headers:
+      - silent.yml
+    includes:
+      - _cleanup.yml
+      - _time.yml
+    vars:
+      - dir.yml
+    tasks:
+      - default.yml
+      - tasks_example.yml
