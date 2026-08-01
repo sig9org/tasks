@@ -4,29 +4,29 @@ tasks:
     deps: [_time:start]
     desc: "Cross-compile release binaries for all platforms"
     cmds:
-      - task: _go:all-build
       - defer: { task: _time:end }
+      - task: _go:all-build
 
   go-build:
     aliases: [gb]
     deps: [_time:start]
     desc: "Build a binary for the current platform"
     cmds:
-      - task: _go:build
       - defer: { task: _time:end }
+      - task: _go:build
 
   go-clean:
     aliases: [gc]
     deps: [_time:start]
     desc: "Delete the contents of the distribution directory"
     cmds:
-      - task: _go:clean
       - defer: { task: _time:end }
+      - task: _go:clean
 
   go-test:
     aliases: [gt]
     deps: [_time:start]
     desc: "Run the Go test suite"
     cmds:
-      - task: _go:test
       - defer: { task: _time:end }
+      - task: _go:test

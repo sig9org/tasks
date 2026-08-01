@@ -1,9 +1,17 @@
 tasks:
+  refresh:
+    internal: true
+    dir: "{{.ROOT_DIR}}"
+    env:
+      TASK_X_REMOTE_TASKFILES: 1
+    cmds:
+      - task --yes --download --force --list-all > /dev/null 2>&1
+
   start:
     internal: true
     cmds:
       - task: start:shell
-      - task: start:refresh
+      - task: refresh
 
   start:shell:
     internal: true
@@ -14,11 +22,3 @@ tasks:
         cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} +
       - for: { var: CLEANUP_FILES }
         cmd: find . -name "{{.ITEM}}" -print -delete
-
-  start:refresh:
-    internal: true
-    dir: "{{.ROOT_DIR}}"
-    env:
-      TASK_X_REMOTE_TASKFILES: 1
-    cmds:
-      - task --yes --download --force --list-all > /dev/null 2>&1

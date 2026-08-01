@@ -18,13 +18,13 @@ tasks:
     deps: [_time:start]
     desc: "Export installed packages"
     cmds:
-      - task: _uv:freeze
       - defer: { task: _time:end }
+      - task: _uv:freeze
 
   uv-sync:
     aliases: [us]
     deps: [_time:start]
     desc: "Sync dependencies and upgrade all packages"
     cmds:
-      - task: _uv:sync
       - defer: { task: _time:end }
+      - task: _uv:sync

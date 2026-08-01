@@ -4,21 +4,21 @@ tasks:
     deps: [_time:start]
     desc: "Check for available OS package updates"
     cmds:
-      - task: _os:check
       - defer: { task: _time:end }
+      - task: _os:check
 
   os-remove:
     aliases: [or]
     deps: [_time:start]
     desc: "Remove unnecessary OS packages and dependencies"
     cmds:
-      - task: _os:remove
       - defer: { task: _time:end }
+      - task: _os:remove
 
   os-update:
     aliases: [ou]
     deps: [_time:start]
     desc: "Update and upgrade OS packages"
     cmds:
-      - task: _os:update
       - defer: { task: _time:end }
+      - task: _os:update

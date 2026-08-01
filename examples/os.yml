@@ -5,6 +5,7 @@ version: '3'
 silent: true
 
 includes:
+  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
   _os: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_os.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
@@ -13,26 +14,34 @@ tasks:
     cmds:
       - task --list
 
+  cleanup:
+    aliases: [c]
+    deps: [_time:start]
+    desc: "Cleanup unnecessary files"
+    cmds:
+      - defer: { task: _time:end }
+      - task: _cleanup:start
+
   os-check:
     aliases: [oc]
     deps: [_time:start]
     desc: "Check for available OS package updates"
     cmds:
-      - task: _os:check
       - defer: { task: _time:end }
+      - task: _os:check
 
   os-remove:
     aliases: [or]
     deps: [_time:start]
     desc: "Remove unnecessary OS packages and dependencies"
     cmds:
-      - task: _os:remove
       - defer: { task: _time:end }
+      - task: _os:remove
 
   os-update:
     aliases: [ou]
     deps: [_time:start]
     desc: "Update and upgrade OS packages"
     cmds:
-      - task: _os:update
       - defer: { task: _time:end }
+      - task: _os:update
