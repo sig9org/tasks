@@ -4,6 +4,7 @@ version: '3'
 
 vars:
   DIST_DIR: dist
+  MODULE: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}"
   PLATFORMS: >-
     darwin/amd64 darwin/arm64
     linux/386 linux/amd64 linux/arm64
@@ -12,6 +13,7 @@ vars:
     sh: git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0
   VERSION:
     sh: git describe --tags --always 2>/dev/null || echo dev
+  VERSION_PKG: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}/internal/version"
 
 tasks:
   all-build:
@@ -42,6 +44,18 @@ tasks:
     cmds:
       - rm -rfv {{.DIST_DIR}}/*
       - mkdir -p {{.DIST_DIR}}
+
+  register:
+    internal: true
+    cmds:
+      - |
+        set -e
+        version=$(git describe --tags --abbrev=0)
+        echo "registering {{.MODULE}}@${version} on pkg.go.dev"
+        curl -fsS "https://proxy.golang.org/{{.MODULE}}/@v/${version}.info"
+        echo
+        curl -fsS -o /dev/null "https://pkg.go.dev/{{.MODULE}}@${version}"
+        echo "requested indexing of {{.MODULE}}@${version}"
 
   test:
     internal: true

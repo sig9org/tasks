@@ -28,6 +28,18 @@ tasks:
       - rm -rfv {{.DIST_DIR}}/*
       - mkdir -p {{.DIST_DIR}}
 
+  register:
+    internal: true
+    cmds:
+      - |
+        set -e
+        version=$(git describe --tags --abbrev=0)
+        echo "registering {{.MODULE}}@${version} on pkg.go.dev"
+        curl -fsS "https://proxy.golang.org/{{.MODULE}}/@v/${version}.info"
+        echo
+        curl -fsS -o /dev/null "https://pkg.go.dev/{{.MODULE}}@${version}"
+        echo "requested indexing of {{.MODULE}}@${version}"
+
   test:
     internal: true
     cmds:
