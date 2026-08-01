@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+silent: true
+
+includes:
+  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  os-check:
+    aliases: [oc]
+    deps: [_time:start]
+    desc: "Check for available OS package updates"
+    cmds:
+      - task: _os-update:check
+      - defer: { task: _time:end }
+
+  os-remove:
+    aliases: [or]
+    deps: [_time:start]
+    desc: "Remove unnecessary OS packages and dependencies"
+    cmds:
+      - task: _os-update:remove
+      - defer: { task: _time:end }
+
+  os-update:
+    aliases: [ou]
+    deps: [_time:start]
+    desc: "Update and upgrade OS packages"
+    cmds:
+      - task: _os-update:update
+      - defer: { task: _time:end }

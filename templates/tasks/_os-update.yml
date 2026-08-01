@@ -1,0 +1,137 @@
+tasks:
+  check:
+    internal: true
+    cmds:
+      - task: check:amazon-linux
+      - task: check:macos
+      - task: check:ubuntu
+
+  check:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Checking for Amazon Linux 2023 package updates..."
+      - |
+        rc=0
+        output=$(sudo dnf check-update 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -eq 100 ]; then
+          echo "----------------------------------------"
+          echo "Updates are available (see the list above)."
+        elif [ "$rc" -eq 0 ]; then
+          echo "No updates available. System is up to date."
+        else
+          echo "Failed to check updates (exit code: $rc)."
+        fi
+
+  check:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Checking for macOS Homebrew package updates..."
+      - brew update
+      - |
+        outdated=$(brew outdated --verbose)
+        if [ -n "$outdated" ]; then
+          echo "The following package(s) can be updated:"
+          echo "$outdated"
+        else
+          echo "No updates available. System is up to date."
+        fi
+
+  check:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Checking for Ubuntu package updates..."
+      - sudo apt-get update -qq
+      - |
+        upgradable=$(apt list --upgradable 2>/dev/null | grep -v '^Listing')
+        if [ -n "$upgradable" ]; then
+          echo "The following package(s) can be updated:"
+          echo "$upgradable"
+        else
+          echo "No updates available. System is up to date."
+        fi
+
+  remove:
+    internal: true
+    cmds:
+      - task: remove:amazon-linux
+      - task: remove:macos
+      - task: remove:ubuntu
+
+  remove:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Removing unnecessary packages and cache (Amazon Linux)..."
+      - sudo dnf autoremove -y
+      - sudo dnf clean all
+
+  remove:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Removing Homebrew cache and old versions..."
+      - brew cleanup
+
+  remove:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Removing unnecessary packages and cache (Ubuntu)..."
+      - sudo apt-get autoremove -y
+      - sudo apt-get clean
+
+  update:
+    internal: true
+    cmds:
+      - task: update:amazon-linux
+      - task: update:macos
+      - task: update:ubuntu
+
+  update:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Running Amazon Linux system update..."
+      - |
+        rc=0
+        output=$(sudo dnf check-update 2>&1) || rc=$?
+        new_release=$(echo "$output" | sed -n 's/.*--releasever=\([0-9][0-9.]*\).*/\1/p' | head -n1)
+        if [ -n "$new_release" ]; then
+          echo "A newer release of Amazon Linux ($new_release) is available. Upgrading..."
+          sudo dnf upgrade --releasever="$new_release" -y
+        else
+          sudo dnf update --releasever=latest -y
+        fi
+      - |
+        if [ -f /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd ]; then
+          sudo setcap 'cap_net_bind_service=+ep' /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd
+        fi
+
+  -update:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Running macOS Homebrew update..."
+      - brew update
+      - brew upgrade -y
+
+  update:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Running Ubuntu system update..."
+      - sudo apt-get update
+      - sudo apt-get upgrade -y

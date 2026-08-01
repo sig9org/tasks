@@ -1,0 +1,2 @@
+includes:
+  _os-update: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_os-update.yml

@@ -18,7 +18,7 @@ tasks:
     deps: [_time:start]
     desc: "Generate task files"
     cmds:
-      - task: gotasky
+      - gotasky
       - defer: { task: _time:end }
 
   cleanup:
@@ -28,10 +28,3 @@ tasks:
     cmds:
       - task: _cleanup:start
       - defer: { task: _time:end }
-
-  dir-check:
-    aliases: [d]
-    desc: "Check directory env."
-    cmds:
-      - echo "{{.GOTASK_ROOT_DIR}}"
-      - echo "{{.GOTASK_WORKING_DIR}}"
