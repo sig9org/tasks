@@ -2,6 +2,18 @@
 
 version: '3'
 
+vars:
+  DETECTED_OS:
+    sh: echo {{OS}}
+  LINUX_DISTRO:
+    sh: |
+      if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        echo "$ID"
+      else
+        echo "unknown"
+      fi
+
 tasks:
   check:
     internal: true

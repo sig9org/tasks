@@ -24,7 +24,7 @@ tasks:
   clean:
     internal: true
     cmds:
-      - rm -rf {{.DIST_DIR}}/*
+      - rm -rfv {{.DIST_DIR}}/*
       - mkdir -p {{.DIST_DIR}}
 
   test:
