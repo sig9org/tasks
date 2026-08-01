@@ -1,0 +1,10 @@
+vars:
+  DIST_DIR: dist
+  PLATFORMS: >-
+    darwin/amd64 darwin/arm64
+    linux/386 linux/amd64 linux/arm64
+    windows/386 windows/amd64 windows/arm64
+  RELEASE_VERSION:
+    sh: git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0
+  VERSION:
+    sh: git describe --tags --always 2>/dev/null || echo dev
