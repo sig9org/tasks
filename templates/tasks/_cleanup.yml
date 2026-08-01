@@ -21,4 +21,4 @@ tasks:
     env:
       TASK_X_REMOTE_TASKFILES: 1
     cmds:
-      - task --yes --download --force --list-all > /dev/null
+      - task --yes --download --force --list-all > /dev/null 2>&1
