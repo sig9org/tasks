@@ -1,3 +1,7 @@
+templates:
+  - templates
+  # - project-templates
+  # - shared-templates
 files:
   _cleanup:
     path: "tasks/_cleanup.yml"
