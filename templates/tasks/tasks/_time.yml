@@ -1,5 +1,5 @@
 tasks:
-  _time:end:
+  end:
     internal: true
     vars:
       END_TIME: '{{now.UnixMilli}}'

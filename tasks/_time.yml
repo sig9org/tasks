@@ -6,7 +6,7 @@ vars:
   START_TIME: '{{now.UnixMilli}}'
 
 tasks:
-  _time:end:
+  end:
     internal: true
     vars:
       END_TIME: '{{now.UnixMilli}}'
