@@ -16,32 +16,40 @@ tasks:
 
   cleanup:
     aliases: [c]
-    deps: [_time:start]
     desc: "Cleanup unnecessary files"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
   os-check:
     aliases: [oc]
-    deps: [_time:start]
     desc: "Check for available OS package updates"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _os:check
 
   os-remove:
     aliases: [or]
-    deps: [_time:start]
     desc: "Remove unnecessary OS packages and dependencies"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _os:remove
 
   os-update:
     aliases: [ou]
-    deps: [_time:start]
     desc: "Update and upgrade OS packages"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _os:update

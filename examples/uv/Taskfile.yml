@@ -5,6 +5,7 @@ version: '3'
 silent: true
 
 includes:
+  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
   _uv: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_uv.yml
 
@@ -13,18 +14,32 @@ tasks:
     cmds:
       - task --list
 
+  cleanup:
+    aliases: [c]
+    desc: "Cleanup unnecessary files"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _cleanup:start
+
   uv-freeze:
     aliases: [uf]
-    deps: [_time:start]
     desc: "Export installed packages"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _uv:freeze
 
   uv-sync:
     aliases: [us]
-    deps: [_time:start]
     desc: "Sync dependencies and upgrade all packages"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _uv:sync

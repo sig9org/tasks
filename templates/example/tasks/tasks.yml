@@ -1,0 +1,12 @@
+tasks:
+  generate-tasks:
+    aliases: [g]
+    desc: "Generate task files"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - find examples/ -mindepth 1 -delete
+      - find tasks/ -mindepth 1 -delete
+      - gotasky

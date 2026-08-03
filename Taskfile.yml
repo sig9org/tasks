@@ -13,19 +13,24 @@ tasks:
     cmds:
       - task --list
 
-  build:
-    aliases: [b]
-    deps: [_time:start]
-    desc: "Generate task files"
-    cmds:
-      - defer: { task: _time:end }
-      - rm -rf examples/* tasks/*
-      - gotasky
-
   cleanup:
     aliases: [c]
-    deps: [_time:start]
-    desc: "Remove temporary and unnecessary files"
+    desc: "Cleanup unnecessary files"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
+
+  generate-tasks:
+    aliases: [g]
+    desc: "Generate task files"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - find examples/ -mindepth 1 -delete
+      - find tasks/ -mindepth 1 -delete
+      - gotasky

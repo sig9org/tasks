@@ -18,56 +18,70 @@ tasks:
 
   cleanup:
     aliases: [c]
-    deps: [_time:start]
     desc: "Cleanup unnecessary files"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
   go-all-build:
     aliases: [ga]
-    deps: [_time:start]
     desc: "Cross-compile release binaries for all platforms"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:all-build
 
   go-build:
     aliases: [gb]
-    deps: [_time:start]
     desc: "Build a binary for the current platform"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:build
 
   go-clean:
     aliases: [gc]
-    deps: [_time:start]
     desc: "Delete the contents of the distribution directory"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:clean
 
   go-register:
     aliases: [gr]
-    deps: [_time:start]
     desc: "Register the latest tagged version on pkg.go.dev"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:register
 
   go-test:
     aliases: [gt]
-    deps: [_time:start]
     desc: "Run the Go test suite"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:test
 
   go-version:
     aliases: [gv]
-    deps: [_time:start]
     desc: "Show version information"
     cmds:
-      - defer: { task: _time:end }
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
       - task: _go:version

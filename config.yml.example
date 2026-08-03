@@ -1,41 +1,111 @@
 templates:
-  - templates
-  # - project-templates
-  # - shared-templates
-files:
+  - templates/example
+  - templates/tasks
+ignore:
+  - .DS_Store
+  - .gitkeep
+sets:
   _cleanup:
-    path: "tasks/_cleanup.yml"
     headers:
       - default.yml
     vars:
       - _cleanup.yml
     tasks:
       - _cleanup.yml
+  _go:
+    headers:
+      - default.yml
+    vars:
+      - _go.yml
+    tasks:
+      - _go.yml
+  _os:
+    headers:
+      - default.yml
+    vars:
+      - _os.yml
+    tasks:
+      - _os.yml
   _time:
-    path: "tasks/_time.yml"
+    headers:
+      - default.yml
+    vars:
+      - _time.yml
+    tasks:
+      - _time.yml
+  _uv:
     headers:
       - default.yml
     tasks:
-      - _time.yml
-  cleanup_example:
-    path: "examples/cleanup.yml"
-    headers:
-      - default.yml
-    includes:
-      - _cleanup.yml
-      - _time.yml
-    tasks:
-      - default.yml
-      - cleanup_example.yml
-  tasks_example:
-    path: "Taskfile.yml"
+      - _uv.yml
+  general:
     headers:
       - silent.yml
     includes:
       - _cleanup.yml
       - _time.yml
-    vars:
-      - dir.yml
     tasks:
+      - cleanup.yml
       - default.yml
-      - tasks_example.yml
+  go:
+    headers:
+      - project.yml
+    includes:
+      - _cleanup.yml
+      - _go.yml
+      - _time.yml
+    tasks:
+      - cleanup.yml
+      - default.yml
+      - go.yml
+files:
+  _clean:
+    path: "tasks/_cleanup.yml"
+    sets:
+      - _cleanup
+  _go:
+    path: "tasks/_go.yml"
+    sets:
+      - _go
+  _os:
+    path: "tasks/_os.yml"
+    sets:
+      - _os
+  _time:
+    path: "tasks/_time.yml"
+    sets:
+      - _time
+  _uv:
+    path: "tasks/_uv.yml"
+    sets:
+      - _uv
+  cleanup_example:
+    path: "examples/cleanup/Taskfile.yml"
+    sets:
+      - general
+  go_example:
+    path: "examples/go/Taskfile.yml"
+    sets:
+      - go
+  os_example:
+    path: "examples/os/Taskfile.yml"
+    sets:
+      - general
+    includes:
+      - _os.yml
+    tasks:
+      - os.yml
+  tasks_example:
+    path: "Taskfile.yml"
+    sets:
+      - general
+    tasks:
+      - tasks.yml
+  uv_example:
+    path: "examples/uv/Taskfile.yml"
+    sets:
+      - general
+    includes:
+      - _uv.yml
+    tasks:
+      - uv.yml
