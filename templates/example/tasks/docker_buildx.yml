@@ -1,0 +1,10 @@
+tasks:
+  docker-build-version:
+    aliases: [db]
+    desc: "Build and export to the registry"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: docker_buildx:version
