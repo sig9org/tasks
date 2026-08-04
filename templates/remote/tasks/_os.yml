@@ -47,8 +47,14 @@ tasks:
       - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
     cmds:
       - echo "Checking for Ubuntu package updates..."
-      - sudo apt-get update -qq
       - |
+        rc=0
+        output=$(sudo apt-get update -qq 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -ne 0 ]; then
+          echo "----------------------------------------"
+          echo "Warning: failed to refresh some package lists (exit code: $rc)."
+        fi
         upgradable=$(apt list --upgradable 2>/dev/null | grep -v '^Listing')
         if [ -n "$upgradable" ]; then
           echo "The following package(s) can be updated:"
@@ -133,5 +139,11 @@ tasks:
       - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
     cmds:
       - echo "Running Ubuntu system update..."
-      - sudo apt-get update
+      - |
+        rc=0
+        output=$(sudo apt-get update 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -ne 0 ]; then
+          echo "Warning: failed to refresh some package lists (exit code: $rc). Continuing with upgrade using cached lists."
+        fi
       - sudo apt-get upgrade -y
