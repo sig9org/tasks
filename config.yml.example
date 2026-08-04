@@ -1,6 +1,6 @@
 templates:
   - templates/example
-  - templates/tasks
+  - templates/remote
 ignore:
   - .DS_Store
   - .gitkeep
@@ -33,6 +33,11 @@ sets:
       - _time.yml
     tasks:
       - _time.yml
+  _skopeo:
+    headers:
+      - default.yml
+    tasks:
+      - _skopeo.yml
   _uv:
     headers:
       - default.yml
@@ -75,6 +80,10 @@ files:
     path: "tasks/_time.yml"
     sets:
       - _time
+  _skopeo:
+    path: "tasks/_skopeo.yml"
+    sets:
+      - _skopeo
   _uv:
     path: "tasks/_uv.yml"
     sets:
@@ -103,6 +112,14 @@ files:
       - tasks.yml
     tasks:
       - tasks.yml
+  skopeo_example:
+    path: "examples/skopeo/Taskfile.yml"
+    sets:
+      - general
+    includes:
+      - _skopeo.yml
+    tasks:
+      - skopeo.yml
   uv_example:
     path: "examples/uv/Taskfile.yml"
     sets:
