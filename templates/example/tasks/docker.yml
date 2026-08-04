@@ -1,0 +1,40 @@
+tasks:
+  docker-build-version:
+    aliases: [db]
+    desc: "Display all containers"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _docker:ps
+
+  docker-check:
+    aliases: [dc]
+    desc: "Display unhealthy containers"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _docker:check
+
+  docker-ps:
+    aliases: [dp]
+    desc: "Display all containers"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _docker:ps
+
+  docker-restart:
+    aliases: [dr]
+    desc: "Restart unhealthy containers"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _docker:restart
