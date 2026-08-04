@@ -2,4 +2,4 @@ tasks:
   tags:
     internal: true
     cmds:
-      - skopeo list-tags {{.SKOPEO_URL}} | jq -r '.Tags[]' | sort -V
+      - skopeo list-tags docker://docker.io/{{.DOCKER_NAME}} | jq -r '.Tags[]' | sort -V
