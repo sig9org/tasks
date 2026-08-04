@@ -1,0 +1,10 @@
+tasks:
+  skopeo-tags:
+    aliases: [st]
+    desc: "List the tags registered on Docker Hub"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _skopeo:tags

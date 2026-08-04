@@ -1,0 +1,5 @@
+tasks:
+  tags:
+    internal: true
+    cmds:
+      - skopeo list-tags {{.SKOPEO_URL}} | jq -r '.Tags[]' | sort -V

@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+dotenv: ['.env']
+
+silent: true
+
+includes:
+  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
+  _skopeo: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_skopeo.yml
+  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  cleanup:
+    aliases: [c]
+    desc: "Cleanup unnecessary files"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _cleanup:start
+
+  skopeo-tags:
+    aliases: [st]
+    desc: "List the tags registered on Docker Hub"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _skopeo:tags
