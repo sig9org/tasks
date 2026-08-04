@@ -26,16 +26,6 @@ tasks:
             START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
-  docker-build-version:
-    aliases: [db]
-    desc: "Display all containers"
-    cmds:
-      - defer:
-          task: _time:end
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: _docker:ps
-
   docker-check:
     aliases: [dc]
     desc: "Display unhealthy containers"

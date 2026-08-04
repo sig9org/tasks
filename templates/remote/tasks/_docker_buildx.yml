@@ -2,4 +2,4 @@ tasks:
   version:
     internal: true
     cmds:
-      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_REPO}}:latest --tag {{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:latest --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
