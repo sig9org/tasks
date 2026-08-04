@@ -47,8 +47,8 @@ sets:
     headers:
       - dotenv.yml
     includes:
-      - _cleanup.yml
-      - _time.yml
+      - cleanup.yml
+      - time.yml
     tasks:
       - cleanup.yml
       - default.yml
@@ -56,9 +56,9 @@ sets:
     headers:
       - project.yml
     includes:
-      - _cleanup.yml
-      - _go.yml
-      - _time.yml
+      - cleanup.yml
+      - go.yml
+      - time.yml
     tasks:
       - cleanup.yml
       - default.yml
@@ -101,7 +101,7 @@ files:
     sets:
       - general
     includes:
-      - _os.yml
+      - os.yml
     tasks:
       - os.yml
   tasks_example:
@@ -117,7 +117,7 @@ files:
     sets:
       - general
     includes:
-      - _skopeo.yml
+      - skopeo.yml
     tasks:
       - skopeo.yml
   uv_example:
@@ -125,6 +125,6 @@ files:
     sets:
       - general
     includes:
-      - _uv.yml
+      - uv.yml
     tasks:
       - uv.yml
