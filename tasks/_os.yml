@@ -71,7 +71,7 @@ tasks:
           echo "----------------------------------------"
           echo "Warning: failed to refresh some package lists (exit code: $rc)."
         fi
-        upgradable=$(apt list --upgradable 2>/dev/null | grep -v '^Listing')
+        upgradable=$(apt list --upgradable 2>/dev/null | grep -v '^Listing' || true)
         if [ -n "$upgradable" ]; then
           echo "The following package(s) can be updated:"
           echo "$upgradable"
