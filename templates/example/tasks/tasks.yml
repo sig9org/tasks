@@ -1,5 +1,11 @@
 tasks:
-  generate-tasks:
+  generate:cleanup:
+    internal: true
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: mkdir -p "{{.ITEM}}" && rm -rf "{{.ITEM}}/*"
+
+  generate:
     aliases: [g]
     desc: "Generate task files"
     cmds:
@@ -7,6 +13,16 @@ tasks:
           task: _time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - find examples/ -mindepth 1 -delete
-      - find tasks/ -mindepth 1 -delete
+      - task: generate:cleanup
       - gotasky
+
+  generate-debug:
+    aliases: [gd]
+    desc: "Generate task files (Debug)"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: generate:cleanup
+      - gotasky -debug

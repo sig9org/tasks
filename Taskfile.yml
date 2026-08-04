@@ -1,12 +1,19 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: '3'
+version: "3"
+
+dotenv: ['.env']
 
 silent: true
 
 includes:
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+
+vars:
+  TASKS_DIRS:
+    - examples
+    - tasks
 
 tasks:
   default:
@@ -23,7 +30,13 @@ tasks:
             START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
-  generate-tasks:
+  generate:cleanup:
+    internal: true
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: mkdir -p "{{.ITEM}}" && rm -rf "{{.ITEM}}/*"
+
+  generate:
     aliases: [g]
     desc: "Generate task files"
     cmds:
@@ -31,6 +44,16 @@ tasks:
           task: _time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - find examples/ -mindepth 1 -delete
-      - find tasks/ -mindepth 1 -delete
+      - task: generate:cleanup
       - gotasky
+
+  generate-debug:
+    aliases: [gd]
+    desc: "Generate task files (Debug)"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: generate:cleanup
+      - gotasky -debug

@@ -40,7 +40,7 @@ sets:
       - _uv.yml
   general:
     headers:
-      - silent.yml
+      - dotenv.yml
     includes:
       - _cleanup.yml
       - _time.yml
@@ -99,6 +99,8 @@ files:
     path: "Taskfile.yml"
     sets:
       - general
+    vars:
+      - tasks.yml
     tasks:
       - tasks.yml
   uv_example:

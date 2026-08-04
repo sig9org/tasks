@@ -1,0 +1,4 @@
+vars:
+  TASKS_DIRS:
+    - examples
+    - tasks
