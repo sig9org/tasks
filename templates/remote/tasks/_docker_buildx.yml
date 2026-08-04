@@ -1,0 +1,5 @@
+tasks:
+  buildx-version:
+    internal: true
+    cmds:
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_REPO}}:latest --tag {{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
