@@ -1,0 +1,25 @@
+tasks:
+  apply:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  destroy:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - terraform destroy -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  init:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - terraform init
+
+  plan:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - terraform plan -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  tag:
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}" -var cml_tag=true
