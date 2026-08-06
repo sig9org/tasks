@@ -26,7 +26,7 @@ tasks:
             START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
-  os-check:
+  os-check-update:
     aliases: [oc]
     desc: "Check for available OS package updates"
     cmds:
