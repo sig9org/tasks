@@ -16,7 +16,14 @@ vars:
   VERSION_PKG: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}/internal/version"
 
 tasks:
-  all-build:
+  build:
+    internal: true
+    cmds:
+      - task: clean
+      - echo "Building binary for {{OS}}/{{ARCH}}..."
+      - go build -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" -o {{.DIST_DIR}}/{{.BINARY_NAME}}{{if eq OS "windows"}}.exe{{end}} .
+
+  build-all:
     internal: true
     cmds:
       - task: clean
@@ -31,13 +38,6 @@ tasks:
           echo "building ${out}"
           CGO_ENABLED=0 GOOS="$goos" GOARCH="$goarch" go build -ldflags "-X {{.VERSION_PKG}}.Version={{.RELEASE_VERSION}}" -o "$out" .
         done
-
-  build:
-    internal: true
-    cmds:
-      - task: clean
-      - echo "Building binary for {{OS}}/{{ARCH}}..."
-      - go build -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" -o {{.DIST_DIR}}/{{.BINARY_NAME}}{{if eq OS "windows"}}.exe{{end}} .
 
   clean:
     internal: true
