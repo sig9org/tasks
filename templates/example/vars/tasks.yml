@@ -1,4 +1,4 @@
 vars:
-  TASKS_DIRS:
+  GENERATE_CLEANUP_DIRS:
     - examples
     - tasks

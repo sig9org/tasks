@@ -11,7 +11,7 @@ includes:
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
 vars:
-  TASKS_DIRS:
+  GENERATE_CLEANUP_DIRS:
     - examples
     - tasks
 
@@ -33,8 +33,8 @@ tasks:
   generate:cleanup:
     internal: true
     cmds:
-      - for: { var: CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rf "{{.ITEM}}/*"
+      - for: { var: GENERATE_CLEANUP_DIRS }
+        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
 
   generate:
     aliases: [g]

@@ -24,13 +24,7 @@ tasks:
     cmds:
       - task --yes --download --force --list-all > /dev/null 2>&1
 
-  start:
-    internal: true
-    cmds:
-      - task: start:shell
-      - task: refresh
-
-  start:shell:
+  shell:
     internal: true
     dir: "{{.USER_WORKING_DIR}}"
     platforms: [darwin, linux]
@@ -39,3 +33,9 @@ tasks:
         cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} +
       - for: { var: CLEANUP_FILES }
         cmd: find . -name "{{.ITEM}}" -print -delete
+
+  start:
+    internal: true
+    cmds:
+      - task: shell
+      - task: refresh

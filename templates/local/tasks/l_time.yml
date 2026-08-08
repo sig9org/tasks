@@ -1,0 +1,20 @@
+tasks:
+  _time:end:
+    internal: true
+    vars:
+      END_TIME: '{{now.UnixMilli}}'
+    cmds:
+      - |
+        ELAPSED_MS=$(({{.END_TIME}} - {{.START_TIME}}))
+        MINUTES=$((ELAPSED_MS / 60000))
+        SECONDS=$((ELAPSED_MS % 60000 / 1000))
+        MILLIS=$((ELAPSED_MS % 1000))
+        GREEN='\033[0;32m'
+        RESET='\033[0m'
+        if [ "$MINUTES" -gt 0 ]; then
+          printf '%b======================================== Elapsed: %s min %s sec %s msec%b\n' "$GREEN" "$MINUTES" "$SECONDS" "$MILLIS" "$RESET"
+        elif [ "$SECONDS" -gt 0 ]; then
+          printf '%b======================================== Elapsed: %s sec %s msec%b\n' "$GREEN" "$SECONDS" "$MILLIS" "$RESET"
+        else
+          printf '%b======================================== Elapsed: %s msec%b\n' "$GREEN" "$MILLIS" "$RESET"
+        fi

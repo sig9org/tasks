@@ -2,8 +2,8 @@ tasks:
   generate:cleanup:
     internal: true
     cmds:
-      - for: { var: CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rf "{{.ITEM}}/*"
+      - for: { var: GENERATE_CLEANUP_DIRS }
+        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
 
   generate:
     aliases: [g]
