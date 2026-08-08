@@ -37,9 +37,9 @@ tasks:
     platforms: [darwin, linux]
     cmds:
       - for: { var: CLEANUP_DIRS }
-        cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} +
+        cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} + | sed 's/^/[DELETE]/'
       - for: { var: CLEANUP_FILES }
-        cmd: find . -name "{{.ITEM}}" -print -delete
+        cmd: find . -name "{{.ITEM}}" -print -delete | sed 's/^/[DELETE]/'
 
   _cleanup:refresh:
     internal: true
