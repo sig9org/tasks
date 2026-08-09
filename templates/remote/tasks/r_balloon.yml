@@ -1,0 +1,18 @@
+tasks:
+  show:
+    internal: true
+    cmds:
+      - task: show:mac
+      - task: show:win
+
+  show:mac:
+    internal: true
+    platforms: [darwin]
+    cmds:
+      - osascript -e 'display notification "{{.BALLOON_BODY}}" with title "{{.BALLOON_TITLE}}"
+
+  show:win:
+    internal: true
+    platforms: [windows]
+    cmds:
+      - powershell -NoProfile -Command "$notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.BalloonTipTitle = '{{.BALLOON_TITLE}}'; $notify.BalloonTipText = '{{.BALLOON_BODY}}'; $notify.Visible = $true; $notify.ShowBalloonTip(5000); Start-Sleep -Seconds 5; $notify.Dispose()"

@@ -40,6 +40,11 @@ tasks:
         curl -fsS -o /dev/null "https://pkg.go.dev/{{.MODULE}}@${version}"
         echo "requested indexing of {{.MODULE}}@${version}"
 
+  run:
+    internal: true
+    cmds:
+      - go run . {{.CLI_ARGS}}
+
   test:
     internal: true
     cmds:

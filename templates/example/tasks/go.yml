@@ -30,7 +30,6 @@ tasks:
       - task: _go:clean
 
   go-register:
-    aliases: [gr]
     desc: "Register the latest tagged version on pkg.go.dev"
     cmds:
       - defer:
@@ -38,6 +37,16 @@ tasks:
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _go:register
+
+  go-run:
+    aliases: [gr]
+    desc: "Run the application"
+    cmds:
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _go:run
 
   go-test:
     aliases: [gt]

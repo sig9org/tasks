@@ -1,6 +1,9 @@
 tasks:
   check:
     internal: true
+    vars:
+      BALLOON_BODY: "OS Update Check"
+      BALLOON_TITLE: "Done."
     cmds:
       - task: check:amazon-linux
       - task: check:macos
@@ -65,6 +68,9 @@ tasks:
 
   remove:
     internal: true
+    vars:
+      BALLOON_BODY: "OS Remove Cache"
+      BALLOON_TITLE: "Done."
     cmds:
       - task: remove:amazon-linux
       - task: remove:macos
@@ -98,6 +104,9 @@ tasks:
 
   update:
     internal: true
+    vars:
+      BALLOON_BODY: "OS Update"
+      BALLOON_TITLE: "Done."
     cmds:
       - task: update:amazon-linux
       - task: update:macos

@@ -1,34 +1,11 @@
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
-
-version: "3"
-
-dotenv: ['.env']
-
-silent: true
-
 includes:
   _balloon: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_balloon.yml
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
-  _docker: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker.yml
   _docker_buildx: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker_buildx.yml
+  _docker: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker.yml
   _go: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_go.yml
   _os: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_os.yml
   _skopeo: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_skopeo.yml
   _tf-cml: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_tf-cml.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
   _uv: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_uv.yml
-
-tasks:
-  default:
-    cmds:
-      - task --list
-
-  cleanup:
-    aliases: [c]
-    desc: "Cleanup unnecessary files"
-    cmds:
-      - defer:
-          task: _time:end
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: _cleanup:start

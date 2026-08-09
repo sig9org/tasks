@@ -2,10 +2,11 @@ tasks:
   start:
     internal: true
     cmds:
-      - task: shell
+      - task: delete:shell
+      - task: delete:win
       - task: refresh
 
-  shell:
+  delete:shell:
     internal: true
     dir: "{{.USER_WORKING_DIR}}"
     platforms: [darwin, linux]
@@ -14,6 +15,16 @@ tasks:
         cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} + | sed 's/^/[DELETE]/'
       - for: { var: CLEANUP_FILES }
         cmd: find . -name "{{.ITEM}}" -print -delete | sed 's/^/[DELETE]/'
+
+  delete:win:
+    internal: true
+    dir: "{{.USER_WORKING_DIR}}"
+    platforms: [windows]
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: powershell -NoProfile -Command "Get-ChildItem -Path . -Recurse -Directory -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq '{{.ITEM}}' } | Sort-Object FullName -Descending | ForEach-Object { Write-Output ('[DELETE]' + $_.FullName); Remove-Item -LiteralPath $_.FullName -Recurse -Force }"
+      - for: { var: CLEANUP_FILES }
+        cmd: powershell -NoProfile -Command "Get-ChildItem -Path . -Recurse -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq '{{.ITEM}}' } | ForEach-Object { Write-Output ('[DELETE]' + $_.FullName); Remove-Item -LiteralPath $_.FullName -Force }"
 
   refresh:
     internal: true
