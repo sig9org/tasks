@@ -7,4 +7,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _skopeo:tags
+      - task: _task:_skopeo:tags

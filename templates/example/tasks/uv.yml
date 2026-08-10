@@ -7,7 +7,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _uv:freeze
+      - task: _task:_uv:freeze
 
   uv-sync:
     aliases: [us]
@@ -17,4 +17,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _uv:sync
+      - task: _task:_uv:sync

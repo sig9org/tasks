@@ -7,7 +7,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _docker:check
+      - task: _task:_docker:check
 
   docker-ps:
     aliases: [dp]
@@ -17,7 +17,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _docker:ps
+      - task: _task:_docker:ps
 
   docker-restart:
     aliases: [dr]
@@ -27,4 +27,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _docker:restart
+      - task: _task:_docker:restart

@@ -32,7 +32,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:build
+      - task: _task:_go:build
 
   go-build-all:
     aliases: [gba]
@@ -42,7 +42,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:build-all
+      - task: _task:_go:build-all
 
   go-clean:
     aliases: [gc]
@@ -52,7 +52,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:clean
+      - task: _task:_go:clean
 
   go-register:
     desc: "Register the latest tagged version on pkg.go.dev"
@@ -61,7 +61,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:register
+      - task: _task:_go:register
 
   go-run:
     aliases: [gr]
@@ -71,7 +71,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:run
+      - task: _task:_go:run
 
   go-test:
     aliases: [gt]
@@ -81,7 +81,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:test
+      - task: _task:_go:test
 
   go-version:
     aliases: [gv]
@@ -91,4 +91,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _go:version
+      - task: _task:_go:version

@@ -7,7 +7,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _os:check
+      - task: _task:_os:check
 
   os-remove:
     aliases: [or]
@@ -17,7 +17,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _os:remove
+      - task: _task:_os:remove
 
   os-update:
     aliases: [ou]
@@ -27,4 +27,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _os:update
+      - task: _task:_os:update

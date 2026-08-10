@@ -8,7 +8,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _tf-cml:apply
+      - task: _task:_tf-cml:apply
 
   tf-destroy:
     aliases: [td]
@@ -19,7 +19,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _tf-cml:destroy
+      - task: _task:_tf-cml:destroy
 
   tf-init:
     aliases: [ti]
@@ -30,8 +30,8 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _cleanup:start
-      - task: _tf-cml:init
+      - task: _task:_cleanup:start
+      - task: _task:_tf-cml:init
 
   tf-plan:
     aliases: [tp]
@@ -42,7 +42,7 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _tf-cml:plan
+      - task: _task:_tf-cml:plan
 
   tf-tag:
     aliases: [tt]
@@ -53,4 +53,4 @@ tasks:
           task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _tf-cml:tag
+      - task: _task:_tf-cml:tag
