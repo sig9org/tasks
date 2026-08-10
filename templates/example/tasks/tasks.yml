@@ -10,7 +10,7 @@ tasks:
     desc: "Generate task files"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: generate:cleanup
@@ -21,7 +21,7 @@ tasks:
     desc: "Generate task files (Debug)"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: generate:cleanup

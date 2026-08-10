@@ -9,11 +9,6 @@ silent: true
 includes:
   _task: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_all.yml
 
-vars:
-  GENERATE_CLEANUP_DIRS:
-    - examples
-    - tasks
-
 tasks:
   default:
     cmds:
@@ -29,30 +24,22 @@ tasks:
             START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
 
-  generate:cleanup:
-    internal: true
-    cmds:
-      - for: { var: GENERATE_CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
-
-  generate:
-    aliases: [g]
-    desc: "Generate task files"
+  uv-freeze:
+    aliases: [uf]
+    desc: "Export installed packages"
     cmds:
       - defer:
-          task: _task:_time:end
+          task: _time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky
+      - task: _uv:freeze
 
-  generate-debug:
-    aliases: [gd]
-    desc: "Generate task files (Debug)"
+  uv-sync:
+    aliases: [us]
+    desc: "Sync dependencies and upgrade all packages"
     cmds:
       - defer:
-          task: _task:_time:end
+          task: _time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky -debug
+      - task: _uv:sync
