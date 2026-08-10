@@ -18,13 +18,16 @@ tasks:
   check:
     internal: true
     vars:
-      BALLOON_BODY: "OS Update Check"
       BALLOON_TITLE: "Done."
+      BALLOON_BODY: "OS Update Check"
     cmds:
       - task: check:amazon-linux
       - task: check:macos
       - task: check:ubuntu
       - task: :_balloon:show
+        vars:
+          BALLOON_BODY: "{{.BALLOON_BODY}}"
+          BALLOON_TITLE: "{{.BALLOON_TITLE}}"
 
   check:amazon-linux:
     internal: true
