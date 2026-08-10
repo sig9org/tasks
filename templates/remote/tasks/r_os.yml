@@ -8,7 +8,7 @@ tasks:
       - task: check:amazon-linux
       - task: check:macos
       - task: check:ubuntu
-      - task: :_task:_balloon:show
+      - task: :_balloon:show
 
   check:amazon-linux:
     internal: true
