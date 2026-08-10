@@ -24,10 +24,10 @@ tasks:
     desc: "Cleanup unnecessary files"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _cleanup:start
+      - task: _task:_cleanup:start
 
   generate:cleanup:
     internal: true

@@ -4,7 +4,7 @@ tasks:
     desc: "Build and export to the registry"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _docker_buildx:version

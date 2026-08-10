@@ -1,14 +1,12 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: "3"
-
-silent: true
+version: '3'
 
 includes:
   _balloon: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_balloon.yml
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
-  _docker_buildx: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker_buildx.yml
   _docker: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker.yml
+  _docker_buildx: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker_buildx.yml
   _go: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_go.yml
   _os: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_os.yml
   _skopeo: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_skopeo.yml

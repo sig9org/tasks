@@ -19,10 +19,10 @@ tasks:
     desc: "Cleanup unnecessary files"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _cleanup:start
+      - task: _task:_cleanup:start
 
   tf-apply:
     aliases: [ta]
@@ -30,7 +30,7 @@ tasks:
     dir: "{{.USER_WORKING_DIR}}"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _tf-cml:apply
@@ -41,7 +41,7 @@ tasks:
     dir: "{{.USER_WORKING_DIR}}"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _tf-cml:destroy
@@ -52,7 +52,7 @@ tasks:
     dir: "{{.USER_WORKING_DIR}}"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _cleanup:start
@@ -64,7 +64,7 @@ tasks:
     dir: "{{.USER_WORKING_DIR}}"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _tf-cml:plan
@@ -75,7 +75,7 @@ tasks:
     dir: "{{.USER_WORKING_DIR}}"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _tf-cml:tag

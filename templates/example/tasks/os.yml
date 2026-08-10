@@ -4,7 +4,7 @@ tasks:
     desc: "Check for available OS package updates"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _os:check
@@ -14,7 +14,7 @@ tasks:
     desc: "Remove unnecessary OS packages and dependencies"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _os:remove
@@ -24,7 +24,7 @@ tasks:
     desc: "Update and upgrade OS packages"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _os:update

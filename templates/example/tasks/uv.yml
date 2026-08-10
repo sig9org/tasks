@@ -4,7 +4,7 @@ tasks:
     desc: "Export installed packages"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _uv:freeze
@@ -14,7 +14,7 @@ tasks:
     desc: "Sync dependencies and upgrade all packages"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: _uv:sync
