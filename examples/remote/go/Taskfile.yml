@@ -7,9 +7,7 @@ dotenv: ['project.ini']
 silent: true
 
 includes:
-  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
-  _go: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_go.yml
-  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+  _task: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_all.yml
 
 tasks:
   default:
