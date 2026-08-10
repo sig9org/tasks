@@ -1,3 +1,9 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+silent: true
+
 includes:
   _balloon: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_balloon.yml
   _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
@@ -9,3 +15,8 @@ includes:
   _tf-cml: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_tf-cml.yml
   _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
   _uv: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_uv.yml
+
+tasks:
+  default:
+    cmds:
+      - task --list
