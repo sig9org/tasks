@@ -13,7 +13,7 @@ tasks:
     internal: true
     platforms: [darwin]
     cmds:
-      - osascript -e 'display notification "{{.BALLOON_BODY}}" with title "{{.BALLOON_TITLE}}"
+      - osascript -e 'display notification "{{.BALLOON_BODY}}" with title "{{.BALLOON_TITLE}}"'
 
   show:win:
     internal: true
