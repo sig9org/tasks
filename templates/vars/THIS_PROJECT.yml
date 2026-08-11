@@ -1,0 +1,3 @@
+vars:
+  GENERATE_CLEANUP_DIRS:
+    - examples

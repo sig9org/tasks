@@ -18,9 +18,18 @@ vars:
     - terraform.tfstate.backup
     - Desktop.ini
     - Thumbs.db
-  GENERATE_CLEANUP_DIRS:
-    - examples
+  DIST_DIR: dist
+  MODULE: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}"
+  PLATFORMS: >-
+    darwin/amd64 darwin/arm64
+    linux/386 linux/amd64 linux/arm64
+    windows/386 windows/amd64 windows/arm64
+  RELEASE_VERSION:
+    sh: git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0
   START_TIME: '{{now.UnixMilli}}'
+  VERSION:
+    sh: git describe --tags --always 2>/dev/null || echo dev
+  VERSION_PKG: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}/internal/version"
 
 tasks:
   default:
@@ -67,33 +76,106 @@ tasks:
     cmds:
       - task --yes --download --force --list-all > /dev/null 2>&1
 
-  generate:
-    aliases: [g]
-    desc: "Generate task files"
+  go-build:
+    aliases: [gb]
+    desc: "Build a binary for the current platform"
     cmds:
       - defer:
-          task: time
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky
+      - defer:
+          task: notify
+          vars:
+            NOTIFY_TITLE: "Go Build"
+            NOTIFY_BODY: "Done."
+      - task: go-clean
+      - echo "Building binary for {{OS}}/{{ARCH}}..."
+      - go build -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" -o {{.DIST_DIR}}/{{.BINARY_NAME}}{{if eq OS "windows"}}.exe{{end}} .
 
-  generate:cleanup:
-    internal: true
-    cmds:
-      - for: { var: GENERATE_CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
-
-  generate-debug:
-    aliases: [gd]
-    desc: "Generate task files (Debug)"
+  go-build-all:
+    aliases: [gba]
+    desc: "Cross-compile release binaries for all platforms"
     cmds:
       - defer:
-          task: time
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky -debug
+      - defer:
+          task: notify
+          vars:
+            NOTIFY_TITLE: "Go Build All"
+            NOTIFY_BODY: "Done."
+      - task: go-clean
+      - |
+        set -e
+        for target in {{.PLATFORMS}}; do
+          goos="${target%/*}"
+          goarch="${target#*/}"
+          ext=""
+          if [ "$goos" = "windows" ]; then ext=".exe"; fi
+          out="{{.DIST_DIR}}/{{.BINARY_NAME}}_{{.RELEASE_VERSION}}_${goos}_${goarch}${ext}"
+          echo "building ${out}"
+          CGO_ENABLED=0 GOOS="$goos" GOARCH="$goarch" go build -ldflags "-X {{.VERSION_PKG}}.Version={{.RELEASE_VERSION}}" -o "$out" .
+        done
+
+  go-clean:
+    aliases: [gc]
+    desc: "Delete the contents of the distribution directory"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - rm -rfv {{.DIST_DIR}}/*
+      - mkdir -p {{.DIST_DIR}}
+
+  go-register:
+    desc: "Register the latest tagged version on pkg.go.dev"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - |
+        set -e
+        version=$(git describe --tags --abbrev=0)
+        echo "registering {{.MODULE}}@${version} on pkg.go.dev"
+        curl -fsS "https://proxy.golang.org/{{.MODULE}}/@v/${version}.info"
+        echo
+        curl -fsS -o /dev/null "https://pkg.go.dev/{{.MODULE}}@${version}"
+        echo "requested indexing of {{.MODULE}}@${version}"
+
+  go-run:
+    aliases: [gr]
+    desc: "Run the application"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - go run . {{.CLI_ARGS}}
+
+  go-test:
+    aliases: [gt]
+    desc: "Run the Go test suite"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - go vet ./...
+      - go test ./...
+
+  go-version:
+    aliases: [gv]
+    desc: "Show version information"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - go run -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" . -v
 
   notify:
     internal: true

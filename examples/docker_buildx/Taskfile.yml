@@ -18,8 +18,6 @@ vars:
     - terraform.tfstate.backup
     - Desktop.ini
     - Thumbs.db
-  GENERATE_CLEANUP_DIRS:
-    - examples
   START_TIME: '{{now.UnixMilli}}'
 
 tasks:
@@ -67,33 +65,15 @@ tasks:
     cmds:
       - task --yes --download --force --list-all > /dev/null 2>&1
 
-  generate:
-    aliases: [g]
-    desc: "Generate task files"
+  docker-build-version:
+    aliases: [db]
+    desc: "Build and export to the registry"
     cmds:
       - defer:
-          task: time
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky
-
-  generate:cleanup:
-    internal: true
-    cmds:
-      - for: { var: GENERATE_CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
-
-  generate-debug:
-    aliases: [gd]
-    desc: "Generate task files (Debug)"
-    cmds:
-      - defer:
-          task: time
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky -debug
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:latest --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
 
   notify:
     internal: true

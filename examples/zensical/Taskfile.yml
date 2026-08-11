@@ -18,8 +18,6 @@ vars:
     - terraform.tfstate.backup
     - Desktop.ini
     - Thumbs.db
-  GENERATE_CLEANUP_DIRS:
-    - examples
   START_TIME: '{{now.UnixMilli}}'
 
 tasks:
@@ -67,34 +65,6 @@ tasks:
     cmds:
       - task --yes --download --force --list-all > /dev/null 2>&1
 
-  generate:
-    aliases: [g]
-    desc: "Generate task files"
-    cmds:
-      - defer:
-          task: time
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky
-
-  generate:cleanup:
-    internal: true
-    cmds:
-      - for: { var: GENERATE_CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
-
-  generate-debug:
-    aliases: [gd]
-    desc: "Generate task files (Debug)"
-    cmds:
-      - defer:
-          task: time
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky -debug
-
   notify:
     internal: true
     cmds:
@@ -139,3 +109,24 @@ tasks:
         else
           printf '%b======================================== Elapsed: %s msec%b\n' "$GREEN" "$MILLIS" "$RESET"
         fi
+
+  zensical-build:
+    aliases: [zb]
+    desc: "To build your documentation site, run zensical build"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv run zensical build --clean
+
+  zensical-serve:
+    aliases: [zs]
+    desc: "Preview your documentation site as you write"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv run zensical build --clean
+      - uv run zensical serve

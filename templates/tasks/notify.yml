@@ -1,0 +1,25 @@
+tasks:
+  notify:
+    internal: true
+    cmds:
+      - task: notify:mac
+        vars:
+          NOTIFY_TITLE: '{{.NOTIFY_TITLE}}'
+          NOTIFY_BODY: '{{.NOTIFY_BODY}}'
+      - task: notify:win
+        vars:
+          NOTIFY_TITLE: '{{.NOTIFY_TITLE}}'
+          NOTIFY_BODY: '{{.NOTIFY_BODY}}'
+
+  notify:mac:
+    internal: true
+    platforms: [darwin]
+    cmds:
+      - osascript -e 'display notification "{{.NOTIFY_BODY}}" with title "{{.NOTIFY_TITLE}}"'
+      - /bin/sh -c 'nohup /usr/bin/afplay /System/Library/Sounds/Glass.aiff >/dev/null 2>&1 < /dev/null &'
+
+  notify:win:
+    internal: true
+    platforms: [windows]
+    cmds:
+      - powershell -NoProfile -Command "[System.Media.SystemSounds]::Beep.Play(); $notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.BalloonTipTitle = '{{.NOTIFY_TITLE}}'; $notify.BalloonTipText = '{{.NOTIFY_BODY}}'; $notify.Visible = $true; $notify.ShowBalloonTip(5000); Start-Sleep -Seconds 5; $notify.Dispose()"

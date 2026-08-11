@@ -1,0 +1,10 @@
+tasks:
+  docker-build-version:
+    aliases: [db]
+    desc: "Build and export to the registry"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:latest --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/

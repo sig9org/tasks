@@ -1,4 +1,0 @@
-tasks:
-  default:
-    cmds:
-      - task --list

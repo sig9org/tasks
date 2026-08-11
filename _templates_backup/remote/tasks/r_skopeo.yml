@@ -1,5 +1,0 @@
-tasks:
-  tags:
-    internal: true
-    cmds:
-      - skopeo list-tags docker://docker.io/{{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}} | jq -r '.Tags[]' | sort -V

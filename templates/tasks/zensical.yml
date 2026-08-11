@@ -1,0 +1,21 @@
+tasks:
+  zensical-build:
+    aliases: [zb]
+    desc: "To build your documentation site, run zensical build"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv run zensical build --clean
+
+  zensical-serve:
+    aliases: [zs]
+    desc: "Preview your documentation site as you write"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv run zensical build --clean
+      - uv run zensical serve

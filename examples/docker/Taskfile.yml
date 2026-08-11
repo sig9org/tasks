@@ -18,8 +18,6 @@ vars:
     - terraform.tfstate.backup
     - Desktop.ini
     - Thumbs.db
-  GENERATE_CLEANUP_DIRS:
-    - examples
   START_TIME: '{{now.UnixMilli}}'
 
 tasks:
@@ -67,33 +65,35 @@ tasks:
     cmds:
       - task --yes --download --force --list-all > /dev/null 2>&1
 
-  generate:
-    aliases: [g]
-    desc: "Generate task files"
+  docker-check:
+    aliases: [dc]
+    desc: "Display unhealthy containers"
     cmds:
       - defer:
-          task: time
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky
+      - docker ps -a --filter "health=unhealthy"
 
-  generate:cleanup:
-    internal: true
-    cmds:
-      - for: { var: GENERATE_CLEANUP_DIRS }
-        cmd: mkdir -p "{{.ITEM}}" && rm -rfv "{{.ITEM}}"/* | sed 's/^/[DELETE]/'
-
-  generate-debug:
-    aliases: [gd]
-    desc: "Generate task files (Debug)"
+  docker-ps:
+    aliases: [dp]
+    desc: "Display all containers"
     cmds:
       - defer:
-          task: time
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: generate:cleanup
-      - gotasky -debug
+      - 'docker ps --format "table {{"{{"}}.ID{{"}}"}}\t{{"{{"}}.Image{{"}}"}}\t{{"{{"}}.Status{{"}}"}}\t{{"{{"}}.Ports{{"}}"}}\t{{"{{"}}.Names{{"}}"}}"'
+
+  docker-restart:
+    aliases: [dr]
+    desc: "Restart unhealthy containers"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - docker restart $(docker ps -a --filter "health=unhealthy" -q)
 
   notify:
     internal: true

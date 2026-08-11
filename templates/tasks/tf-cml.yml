@@ -1,0 +1,56 @@
+tasks:
+  tf-apply:
+    aliases: [ta]
+    desc: "terraform apply -auto-approve"
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  tf-destroy:
+    aliases: [td]
+    desc: "terraform destroy -auto-approve"
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - terraform destroy -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  tf-init:
+    aliases: [ti]
+    desc: "terraform init"
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: cleanup
+      - terraform init
+
+  tf-plan:
+    aliases: [tp]
+    desc: "terraform plan"
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - terraform plan -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
+
+  tf-tag:
+    aliases: [tt]
+    desc: "terraform apply -auto-approve"
+    dir: "{{.USER_WORKING_DIR}}"
+    cmds:
+      - defer:
+          task: time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}" -var cml_tag=true

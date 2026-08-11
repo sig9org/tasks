@@ -1,0 +1,134 @@
+tasks:
+  os-check-update:
+    aliases: [oc]
+    desc: "Check for available OS package updates"
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - defer:
+          task: notify
+          vars:
+            NOTIFY_TITLE: "Check OS Update"
+            NOTIFY_BODY: "Done."
+      - task: os-check-update:amazon-linux
+      - task: os-check-update:macos
+      - task: os-check-update:ubuntu
+
+  os-remove:
+    aliases: [or]
+    desc: "Remove unnecessary OS packages and dependencies"
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - defer:
+          task: notify
+          vars:
+            NOTIFY_TITLE: "Remove OS Cache"
+            NOTIFY_BODY: "Done."
+      - task: os-remove:amazon-linux
+      - task: os-remove:macos
+      - task: os-remove:ubuntu
+
+  os-update:
+    aliases: [ou]
+    desc: "Update and upgrade OS packages"
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - defer:
+          task: notify
+          vars:
+            NOTIFY_TITLE: "OS Update"
+            NOTIFY_BODY: "Done."
+      - task: os-update:amazon-linux
+      - task: os-update:macos
+      - task: os-update:ubuntu
+
+  os-check-update:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Checking for Amazon Linux 2023 package updates..."
+      - |
+        rc=0
+        output=$(sudo dnf check-update 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -eq 100 ]; then
+          echo "----------------------------------------"
+          echo "Updates are available (see the list above)."
+        elif [ "$rc" -eq 0 ]; then
+          echo "No updates available. System is up to date."
+        else
+          echo "Failed to check updates (exit code: $rc)."
+        fi
+
+  os-check-update:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Checking for macOS Homebrew package updates..."
+      - brew update
+      - |
+        outdated=$(brew outdated --verbose)
+        if [ -n "$outdated" ]; then
+          echo "The following package(s) can be updated:"
+          echo "$outdated"
+        else
+          echo "No updates available. System is up to date."
+        fi
+
+  os-check-update:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Checking for Ubuntu package updates..."
+      - |
+        rc=0
+        output=$(sudo apt-get update -qq 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -ne 0 ]; then
+          echo "----------------------------------------"
+          echo "Warning: failed to refresh some package lists (exit code: $rc)."
+        fi
+        upgradable=$(apt list --upgradable 2>/dev/null | grep -v '^Listing' || true)
+        if [ -n "$upgradable" ]; then
+          echo "The following package(s) can be updated:"
+          echo "$upgradable"
+        else
+          echo "No updates available. System is up to date."
+        fi
+
+  os-remove:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Removing unnecessary packages and cache (Amazon Linux)..."
+      - sudo dnf autoremove -y
+      - sudo dnf clean all
+
+  os-remove:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Removing Homebrew cache and old versions..."
+      - brew cleanup
+
+  os-remove:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Removing unnecessary packages and cache (Ubuntu)..."
+      - sudo apt-get autoremove -y
+      - sudo apt-get clean

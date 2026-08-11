@@ -1,0 +1,20 @@
+tasks:
+  uv-freeze:
+    aliases: [uf]
+    desc: "Export installed packages"
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv pip freeze
+
+  uv-sync:
+    aliases: [us]
+    desc: "Sync dependencies and upgrade all packages"
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - uv sync --upgrade
