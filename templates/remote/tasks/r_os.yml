@@ -10,8 +10,8 @@ tasks:
       - task: check:ubuntu
       - task: :_balloon:show
         vars:
-          BALLOON_BODY: "{{.BALLOON_BODY}}"
           BALLOON_TITLE: "{{.BALLOON_TITLE}}"
+          BALLOON_BODY: "{{.BALLOON_BODY}}"
 
   check:amazon-linux:
     internal: true
