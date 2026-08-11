@@ -1,17 +1,12 @@
 tasks:
   start:
-    aliases: [c]
-    desc: "Cleanup unnecessary files"
+    internal: true
     cmds:
-      - defer:
-          task: :time:end
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - task: start:shell
-      - task: start:win
+      - task: delete:shell
+      - task: delete:win
       - task: refresh
 
-  start:shell:
+  delete:shell:
     internal: true
     dir: "{{.USER_WORKING_DIR}}"
     platforms: [darwin, linux]
@@ -21,7 +16,7 @@ tasks:
       - for: { var: CLEANUP_FILES }
         cmd: find . -name "{{.ITEM}}" -print -delete | sed 's/^/[DELETE]/'
 
-  start:win:
+  delete:win:
     internal: true
     dir: "{{.USER_WORKING_DIR}}"
     platforms: [windows]

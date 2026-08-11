@@ -1,2 +1,2 @@
 includes:
-  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+  time: https://raw.githubusercontent.com/sig9org/tasks/main/examples/remote/time.yml
