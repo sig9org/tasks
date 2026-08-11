@@ -1,130 +1,85 @@
 templates:
-  - templates/example
-  - templates/remote
+  - templates
 ignore:
   - .DS_Store
   - .gitkeep
 sets:
-  _cleanup:
+  default:
     headers:
       - default.yml
-    vars:
-      - _cleanup.yml
-    tasks:
-      - _cleanup.yml
-  _go:
-    headers:
-      - default.yml
-    vars:
-      - _go.yml
-    tasks:
-      - _go.yml
-  _os:
-    headers:
-      - default.yml
-    vars:
-      - _os.yml
-    tasks:
-      - _os.yml
-  _time:
-    headers:
-      - default.yml
-    vars:
-      - _time.yml
-    tasks:
-      - _time.yml
-  _skopeo:
-    headers:
-      - default.yml
-    tasks:
-      - _skopeo.yml
-  _uv:
-    headers:
-      - default.yml
-    tasks:
-      - _uv.yml
-  general:
+  local_base:
     headers:
       - dotenv.yml
-    includes:
+    vars:
       - cleanup.yml
       - time.yml
     tasks:
-      - cleanup.yml
       - default.yml
-  go:
-    headers:
-      - project.yml
-    includes:
       - cleanup.yml
-      - go.yml
+      - notify.yml
       - time.yml
-    tasks:
-      - cleanup.yml
-      - default.yml
-      - go.yml
 files:
-  _clean:
-    path: "tasks/_cleanup.yml"
-    sets:
-      - _cleanup
-  _go:
-    path: "tasks/_go.yml"
-    sets:
-      - _go
-  _os:
-    path: "tasks/_os.yml"
-    sets:
-      - _os
-  _time:
-    path: "tasks/_time.yml"
-    sets:
-      - _time
-  _skopeo:
-    path: "tasks/_skopeo.yml"
-    sets:
-      - _skopeo
-  _uv:
-    path: "tasks/_uv.yml"
-    sets:
-      - _uv
-  cleanup_example:
-    path: "examples/cleanup/Taskfile.yml"
-    sets:
-      - general
-  go_example:
-    path: "examples/go/Taskfile.yml"
-    sets:
-      - go
-  os_example:
-    path: "examples/os/Taskfile.yml"
-    sets:
-      - general
-    includes:
-      - os.yml
-    tasks:
-      - os.yml
-  tasks_example:
+  THIS_PROJECT:
     path: "Taskfile.yml"
     sets:
-      - general
+      - local_base
     vars:
-      - tasks.yml
+      - THIS_PROJECT.yml
     tasks:
-      - tasks.yml
-  skopeo_example:
+      - THIS_PROJECT.yml
+  cleanup:
+    path: "examples/cleanup/Taskfile.yml"
+    sets:
+      - local_base
+  docker_buildx:
+    path: "examples/docker_buildx/Taskfile.yml"
+    sets:
+      - local_base
+    tasks:
+      - docker_buildx.yml
+  docker:
+    path: "examples/docker/Taskfile.yml"
+    sets:
+      - local_base
+    tasks:
+      - docker.yml
+  go:
+    path: "examples/go/Taskfile.yml"
+    sets:
+      - local_base
+    vars:
+      - go.yml
+    tasks:
+      - go.yml
+  os:
+    path: "examples/os/Taskfile.yml"
+    sets:
+      - local_base
+    vars:
+      - os.yml
+    tasks:
+      - os.yml
+  skopeo:
     path: "examples/skopeo/Taskfile.yml"
     sets:
-      - general
-    includes:
-      - skopeo.yml
+      - local_base
     tasks:
       - skopeo.yml
-  uv_example:
+  tf-cml:
+    path: "examples/tf-cml/Taskfile.yml"
+    sets:
+      - local_base
+    tasks:
+      - tf-cml.yml
+  uv:
     path: "examples/uv/Taskfile.yml"
     sets:
-      - general
-    includes:
-      - uv.yml
+      - local_base
     tasks:
       - uv.yml
+  zensical:
+    path: "examples/zensical/Taskfile.yml"
+    sets:
+      - local_base
+    tasks:
+      - zensical.yml

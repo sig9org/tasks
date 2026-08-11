@@ -132,3 +132,48 @@ tasks:
       - echo "Removing unnecessary packages and cache (Ubuntu)..."
       - sudo apt-get autoremove -y
       - sudo apt-get clean
+
+  os-update:amazon-linux:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "amzn" ]'
+    cmds:
+      - echo "Running Amazon Linux system update..."
+      - |
+        rc=0
+        output=$(sudo dnf check-update 2>&1) || rc=$?
+        new_release=$(echo "$output" | sed -n 's/.*--releasever=\([0-9][0-9.]*\).*/\1/p' | head -n1)
+        if [ -n "$new_release" ]; then
+          echo "A newer release of Amazon Linux ($new_release) is available. Upgrading..."
+          sudo dnf upgrade --releasever="$new_release" -y
+        else
+          sudo dnf update --releasever=latest -y
+        fi
+      - |
+        if [ -f /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd ]; then
+          sudo setcap 'cap_net_bind_service=+ep' /opt/gitlab/embedded/service/gitlab-shell/bin/gitlab-sshd
+        fi
+
+  os-update:macos:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "darwin" ]'
+    cmds:
+      - echo "Running macOS Homebrew update..."
+      - brew update
+      - brew upgrade -y
+
+  os-update:ubuntu:
+    internal: true
+    status:
+      - '[ "{{.DETECTED_OS}}" != "linux" ] || [ "{{.LINUX_DISTRO}}" != "ubuntu" ]'
+    cmds:
+      - echo "Running Ubuntu system update..."
+      - |
+        rc=0
+        output=$(sudo apt-get update 2>&1) || rc=$?
+        echo "$output"
+        if [ "$rc" -ne 0 ]; then
+          echo "Warning: failed to refresh some package lists (exit code: $rc). Continuing with upgrade using cached lists."
+        fi
+      - sudo apt-get upgrade -y
