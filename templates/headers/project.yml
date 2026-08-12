@@ -2,6 +2,6 @@
 
 version: '3'
 
-dotenv: ['project.ini']
+dotenv: ['.env', 'project.ini']
 
 silent: true

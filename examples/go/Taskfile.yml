@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: "3"
+version: '3'
 
-dotenv: ['.env']
+dotenv: ['.env', 'project.ini']
 
 silent: true
 
