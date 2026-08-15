@@ -1,7 +1,7 @@
 tasks:
   uv-freeze:
     aliases: [uf]
-    desc: "Export installed packages"
+    desc: 'Export installed packages'
     cmds:
       - defer:
           task: time
@@ -11,7 +11,7 @@ tasks:
 
   uv-sync:
     aliases: [us]
-    desc: "Sync dependencies and upgrade all packages"
+    desc: 'Sync dependencies and upgrade all packages'
     cmds:
       - defer:
           task: time

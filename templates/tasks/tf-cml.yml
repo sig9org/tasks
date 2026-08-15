@@ -1,8 +1,8 @@
 tasks:
   tf-apply:
     aliases: [ta]
-    desc: "terraform apply -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform apply -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -12,8 +12,8 @@ tasks:
 
   tf-destroy:
     aliases: [td]
-    desc: "terraform destroy -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform destroy -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -23,8 +23,8 @@ tasks:
 
   tf-init:
     aliases: [ti]
-    desc: "terraform init"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform init'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -35,8 +35,8 @@ tasks:
 
   tf-plan:
     aliases: [tp]
-    desc: "terraform plan"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform plan'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -46,8 +46,8 @@ tasks:
 
   tf-tag:
     aliases: [tt]
-    desc: "terraform apply -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform apply -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end

@@ -1,7 +1,7 @@
 tasks:
   docker-build-version:
     aliases: [db]
-    desc: "Build and export to the registry"
+    desc: 'Build and export to the registry'
     cmds:
       - defer:
           task: time:end

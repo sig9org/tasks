@@ -1,7 +1,7 @@
 tasks:
   docker-check:
     aliases: [dc]
-    desc: "Display unhealthy containers"
+    desc: 'Display unhealthy containers'
     cmds:
       - defer:
           task: time:end
@@ -11,7 +11,7 @@ tasks:
 
   docker-ps:
     aliases: [dp]
-    desc: "Display all containers"
+    desc: 'Display all containers'
     cmds:
       - defer:
           task: time:end
@@ -21,7 +21,7 @@ tasks:
 
   docker-restart:
     aliases: [dr]
-    desc: "Restart unhealthy containers"
+    desc: 'Restart unhealthy containers'
     cmds:
       - defer:
           task: time:end

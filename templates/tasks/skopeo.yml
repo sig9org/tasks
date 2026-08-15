@@ -1,7 +1,7 @@
 tasks:
   docker-tags:
     aliases: [dt]
-    desc: "List the tags registered on Docker Hub"
+    desc: 'List the tags registered on Docker Hub'
     cmds:
       - defer:
           task: _task:_time:end

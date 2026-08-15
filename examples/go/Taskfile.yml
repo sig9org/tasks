@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
-
 version: '3'
 
 dotenv:
@@ -21,7 +19,7 @@ vars:
     - Desktop.ini
     - Thumbs.db
   DIST_DIR: dist
-  MODULE: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}"
+  MODULE: 'github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}'
   PLATFORMS: >-
     darwin/amd64 darwin/arm64
     linux/386 linux/amd64 linux/arm64
@@ -31,7 +29,7 @@ vars:
   START_TIME: '{{now.UnixMilli}}'
   VERSION:
     sh: git describe --tags --always 2>/dev/null || echo dev
-  VERSION_PKG: "github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}/internal/version"
+  VERSION_PKG: 'github.com/{{.GITHUB_USER}}/{{.GITHUB_REPO}}/internal/version'
 
 tasks:
   default:
@@ -40,7 +38,7 @@ tasks:
 
   cleanup:
     aliases: [c]
-    desc: "Cleanup unnecessary files"
+    desc: 'Cleanup unnecessary files'
     cmds:
       - defer:
           task: time
@@ -52,7 +50,7 @@ tasks:
 
   cleanup:shell:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [darwin, linux]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -62,7 +60,7 @@ tasks:
 
   cleanup:win:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [windows]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -72,7 +70,7 @@ tasks:
 
   cleanup:refresh:
     internal: true
-    dir: "{{.ROOT_DIR}}"
+    dir: '{{.ROOT_DIR}}'
     env:
       TASK_X_REMOTE_TASKFILES: 1
     cmds:
@@ -80,7 +78,7 @@ tasks:
 
   go-build:
     aliases: [gb]
-    desc: "Build a binary for the current platform"
+    desc: 'Build a binary for the current platform'
     cmds:
       - defer:
           task: time:end
@@ -89,15 +87,15 @@ tasks:
       - defer:
           task: notify
           vars:
-            NOTIFY_TITLE: "Go Build"
-            NOTIFY_BODY: "Done."
+            NOTIFY_TITLE: 'Go Build'
+            NOTIFY_BODY: 'Done.'
       - task: go-clean
       - echo "Building binary for {{OS}}/{{ARCH}}..."
       - go build -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" -o {{.DIST_DIR}}/{{.BINARY_NAME}}{{if eq OS "windows"}}.exe{{end}} .
 
   go-build-all:
     aliases: [gba]
-    desc: "Cross-compile release binaries for all platforms"
+    desc: 'Cross-compile release binaries for all platforms'
     cmds:
       - defer:
           task: time:end
@@ -106,8 +104,8 @@ tasks:
       - defer:
           task: notify
           vars:
-            NOTIFY_TITLE: "Go Build All"
-            NOTIFY_BODY: "Done."
+            NOTIFY_TITLE: 'Go Build All'
+            NOTIFY_BODY: 'Done.'
       - task: go-clean
       - |
         set -e
@@ -123,7 +121,7 @@ tasks:
 
   go-clean:
     aliases: [gc]
-    desc: "Delete the contents of the distribution directory"
+    desc: 'Delete the contents of the distribution directory'
     cmds:
       - defer:
           task: time:end
@@ -133,7 +131,7 @@ tasks:
       - mkdir -p {{.DIST_DIR}}
 
   go-register:
-    desc: "Register the latest tagged version on pkg.go.dev"
+    desc: 'Register the latest tagged version on pkg.go.dev'
     cmds:
       - defer:
           task: time:end
@@ -150,7 +148,7 @@ tasks:
 
   go-run:
     aliases: [gr]
-    desc: "Run the application"
+    desc: 'Run the application'
     cmds:
       - defer:
           task: time:end
@@ -160,7 +158,7 @@ tasks:
 
   go-test:
     aliases: [gt]
-    desc: "Run the Go test suite"
+    desc: 'Run the Go test suite'
     cmds:
       - defer:
           task: time:end
@@ -171,7 +169,7 @@ tasks:
 
   go-version:
     aliases: [gv]
-    desc: "Show version information"
+    desc: 'Show version information'
     cmds:
       - defer:
           task: time:end

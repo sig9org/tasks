@@ -1,7 +1,7 @@
 tasks:
   generate:
     aliases: [g]
-    desc: "Generate task files"
+    desc: 'Generate task files'
     cmds:
       - defer:
           task: time
@@ -12,7 +12,7 @@ tasks:
 
   generate-debug:
     aliases: [gd]
-    desc: "Generate task files (Debug)"
+    desc: 'Generate task files (Debug)'
     cmds:
       - defer:
           task: time

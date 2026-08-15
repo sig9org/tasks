@@ -1,7 +1,7 @@
 tasks:
   os-check-update:
     aliases: [oc]
-    desc: "Check for available OS package updates"
+    desc: 'Check for available OS package updates'
     cmds:
       - defer:
           task: time
@@ -10,15 +10,15 @@ tasks:
       - defer:
           task: notify
           vars:
-            NOTIFY_TITLE: "Check OS Update"
-            NOTIFY_BODY: "Done."
+            NOTIFY_TITLE: 'Check OS Update'
+            NOTIFY_BODY: 'Done.'
       - task: os-check-update:amazon-linux
       - task: os-check-update:macos
       - task: os-check-update:ubuntu
 
   os-remove:
     aliases: [or]
-    desc: "Remove unnecessary OS packages and dependencies"
+    desc: 'Remove unnecessary OS packages and dependencies'
     cmds:
       - defer:
           task: time
@@ -27,15 +27,15 @@ tasks:
       - defer:
           task: notify
           vars:
-            NOTIFY_TITLE: "Remove OS Cache"
-            NOTIFY_BODY: "Done."
+            NOTIFY_TITLE: 'Remove OS Cache'
+            NOTIFY_BODY: 'Done.'
       - task: os-remove:amazon-linux
       - task: os-remove:macos
       - task: os-remove:ubuntu
 
   os-update:
     aliases: [ou]
-    desc: "Update and upgrade OS packages"
+    desc: 'Update and upgrade OS packages'
     cmds:
       - defer:
           task: time
@@ -44,8 +44,8 @@ tasks:
       - defer:
           task: notify
           vars:
-            NOTIFY_TITLE: "OS Update"
-            NOTIFY_BODY: "Done."
+            NOTIFY_TITLE: 'OS Update'
+            NOTIFY_BODY: 'Done.'
       - task: os-update:amazon-linux
       - task: os-update:macos
       - task: os-update:ubuntu

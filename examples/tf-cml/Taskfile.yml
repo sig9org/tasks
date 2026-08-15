@@ -1,6 +1,4 @@
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
-
-version: "3"
+version: '3'
 
 dotenv:
   - '.env'
@@ -28,7 +26,7 @@ tasks:
 
   cleanup:
     aliases: [c]
-    desc: "Cleanup unnecessary files"
+    desc: 'Cleanup unnecessary files'
     cmds:
       - defer:
           task: time
@@ -40,7 +38,7 @@ tasks:
 
   cleanup:shell:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [darwin, linux]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -50,7 +48,7 @@ tasks:
 
   cleanup:win:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [windows]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -60,7 +58,7 @@ tasks:
 
   cleanup:refresh:
     internal: true
-    dir: "{{.ROOT_DIR}}"
+    dir: '{{.ROOT_DIR}}'
     env:
       TASK_X_REMOTE_TASKFILES: 1
     cmds:
@@ -93,8 +91,8 @@ tasks:
 
   tf-apply:
     aliases: [ta]
-    desc: "terraform apply -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform apply -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -104,8 +102,8 @@ tasks:
 
   tf-destroy:
     aliases: [td]
-    desc: "terraform destroy -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform destroy -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -115,8 +113,8 @@ tasks:
 
   tf-init:
     aliases: [ti]
-    desc: "terraform init"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform init'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -127,8 +125,8 @@ tasks:
 
   tf-plan:
     aliases: [tp]
-    desc: "terraform plan"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform plan'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
@@ -138,8 +136,8 @@ tasks:
 
   tf-tag:
     aliases: [tt]
-    desc: "terraform apply -auto-approve"
-    dir: "{{.USER_WORKING_DIR}}"
+    desc: 'terraform apply -auto-approve'
+    dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
           task: time:end
