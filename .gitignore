@@ -17,6 +17,8 @@
 
 # Configurations
 .env
+config.ini
+config.toml
 config.yml
 config.yaml
 
@@ -153,6 +155,13 @@ terraform.rc
 
 # macOS
 .DS_Store
+
+# Virtual Machine Images
+*.ova
+*.qcow2
+*.vdi
+*.vhdx
+*.vmdk
 
 # Windows
 *.cab

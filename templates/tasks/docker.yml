@@ -4,7 +4,7 @@ tasks:
     desc: 'Display unhealthy containers'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - docker ps -a --filter "health=unhealthy"
@@ -14,7 +14,7 @@ tasks:
     desc: 'Display all containers'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - 'docker ps --format "table {{"{{"}}.ID{{"}}"}}\t{{"{{"}}.Image{{"}}"}}\t{{"{{"}}.Status{{"}}"}}\t{{"{{"}}.Ports{{"}}"}}\t{{"{{"}}.Names{{"}}"}}"'
@@ -24,7 +24,7 @@ tasks:
     desc: 'Restart unhealthy containers'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - docker restart $(docker ps -a --filter "health=unhealthy" -q)

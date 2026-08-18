@@ -4,7 +4,7 @@ tasks:
     desc: 'Build a binary for the current platform'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - defer:
@@ -21,7 +21,7 @@ tasks:
     desc: 'Cross-compile release binaries for all platforms'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - defer:
@@ -47,7 +47,7 @@ tasks:
     desc: 'Delete the contents of the distribution directory'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - rm -rfv {{.DIST_DIR}}/*
@@ -57,7 +57,7 @@ tasks:
     desc: 'Register the latest tagged version on pkg.go.dev'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - |
@@ -74,17 +74,36 @@ tasks:
     desc: 'Run the application'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - go run . {{.CLI_ARGS}}
+
+  go-scan:
+    aliases: [gs]
+    desc: 'Scan the application'
+    cmds:
+      - defer:
+          task: time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - |
+        GREEN='\033[0;32m'
+        RESET='\033[0m'
+        printf '%b======================================== govulncheck%b\n' "$GREEN" "$RESET"
+      - govulncheck ./...
+      - |
+        GREEN='\033[0;32m'
+        RESET='\033[0m'
+        printf '%b======================================== OSV-Scanner%b\n' "$GREEN" "$RESET"
+      - osv-scanner -r .
 
   go-test:
     aliases: [gt]
     desc: 'Run the Go test suite'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - go vet ./...
@@ -95,7 +114,7 @@ tasks:
     desc: 'Show version information'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - go run -ldflags "-X {{.VERSION_PKG}}.Version={{.VERSION}}" . -v

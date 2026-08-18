@@ -4,7 +4,7 @@ tasks:
     desc: 'To build your documentation site, run zensical build'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - uv run zensical build --clean
@@ -14,7 +14,7 @@ tasks:
     desc: 'Preview your documentation site as you write'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - uv run zensical build --clean

@@ -95,7 +95,7 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
@@ -106,7 +106,7 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - terraform destroy -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
@@ -117,7 +117,7 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - task: cleanup
@@ -129,7 +129,7 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - terraform plan -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}"
@@ -140,7 +140,7 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - terraform apply -auto-approve -var cml_address="{{.CML_ADDRESS}}" -var cml_username="{{.CML_USERNAME}}" -var cml_password="{{.CML_PASSWORD}}" -var cml_tag=true
