@@ -4,7 +4,7 @@ tasks:
     desc: 'List the tags registered on Docker Hub'
     cmds:
       - defer:
-          task: _task:_time:end
+          task: _task:_time
           vars:
             START_TIME: '{{.START_TIME}}'
       - skopeo list-tags docker://docker.io/{{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}} | jq -r '.Tags[]' | sort -V

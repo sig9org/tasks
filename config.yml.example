@@ -3,13 +3,14 @@ templates:
 ignore:
   - .DS_Store
   - .gitkeep
-sets:
+presets:
   default:
-    headers:
+    version:
       - default.yml
-  local_base:
-    headers:
+    dotenv:
       - dotenv.yml
+    silent:
+      - silent.yml
     vars:
       - cleanup.yml
       - time.yml
@@ -18,68 +19,75 @@ sets:
       - cleanup.yml
       - notify.yml
       - time.yml
+  project:
+    presets:
+      - default
+    dotenv:
+      - project.yml
 files:
   THIS_PROJECT:
     path: "Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     vars:
       - THIS_PROJECT.yml
     tasks:
       - THIS_PROJECT.yml
   cleanup:
     path: "examples/cleanup/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
   docker_buildx:
     path: "examples/docker_buildx/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - project
     tasks:
       - docker_buildx.yml
+      - skopeo.yml
   docker:
     path: "examples/docker/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     tasks:
       - docker.yml
   go:
     path: "examples/go/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - project
     vars:
       - go.yml
     tasks:
       - go.yml
   os:
     path: "examples/os/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     vars:
       - os.yml
     tasks:
       - os.yml
   skopeo:
     path: "examples/skopeo/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     tasks:
       - skopeo.yml
   tf-cml:
     path: "examples/tf-cml/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     tasks:
       - tf-cml.yml
   uv:
     path: "examples/uv/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     tasks:
       - uv.yml
   zensical:
     path: "examples/zensical/Taskfile.yml"
-    sets:
-      - local_base
+    presets:
+      - default
     tasks:
+      - uv.yml
       - zensical.yml
